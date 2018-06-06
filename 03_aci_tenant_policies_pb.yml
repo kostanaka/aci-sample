@@ -40,7 +40,7 @@
         state: "present"
         validate_certs: False
         tenant: "{{ tenant }}"
-        filter: "{{ item.filter }}"
+        filter: "{{ item }}"
         descr: "Filter Created Using Ansible"
       with_items: "{{ filters }}"
 
@@ -96,4 +96,4 @@
         contract: "{{ item.contract }}"
         subject: "{{ item.subject }}"
         filter: "{{ item.filter }}"
-      with_items: "{{ contract_subject_filters }}"
+      with_items: "{{ contract_subject_to_filters }}"

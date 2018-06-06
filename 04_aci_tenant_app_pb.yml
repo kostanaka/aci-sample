@@ -4,8 +4,8 @@
   connection: local
   gather_facts: False
 
-  vars:
-    - include: vars/intranet_vars.yml
+  vars_files:
+    - vars/intranet_vars.yml
 
   tasks:
     - name: ENSURE APPLICATION EXISTS

@@ -20,7 +20,7 @@
         validate_certs: False
         tenant: "{{ tenant }}"
         vrf: "{{ vrf }}"
-        desc: "VRF created using ansible"
+        description: "VRF created using ansible"
 
     - name: ENSURE TENANT BRIDGE DOMAIN EXISTS
       aci_bd:
@@ -32,7 +32,7 @@
         tenant: "{{ tenant }}"
         bd: "{{ bd }}"
         vrf: "{{ vrf }}"
-        desc: "Bridge Domain created using ansible"
+        description: "Bridge Domain created using ansible"
 
     - name: ENSURE BRIDGE DOMAIN SUBNET EXISTS
       aci_bd_subnet:

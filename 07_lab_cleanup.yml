@@ -4,6 +4,9 @@
   connection: local
   gather_facts: False
 
+  vars:
+    path: "api/mo/uni/tn-test_tenant.json"
+
   tasks:
     - name: ENSURE LAB WORK IS CLEANED UP
       aci_rest:
@@ -12,4 +15,4 @@
         password: "{{ password }}"
         method: "delete"
         validate_certs: False
-        path: "api/mo/uni/tn-test_tenant.json"
+        path: "{{ path }}"
