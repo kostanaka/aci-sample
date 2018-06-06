@@ -4,7 +4,7 @@
   connection: local
   gather_facts: False
   vars:
-    tenant : "tenant"
+    tenant : "test_tenant"
     filters:
       - "https"
       - "sql"

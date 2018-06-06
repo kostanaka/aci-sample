@@ -5,7 +5,6 @@
   gather_facts: False
   vars:
     - tenant: "test_tenant"
-    - tdesc: "Tenant creation test"
 
   tasks:
     - name: ENSURE APPLICATIONS TENANT EXISTS
@@ -16,4 +15,4 @@
         state: "present"
         validate_certs: False
         tenant: "{{ tenant }}"
-        description: "{{ tdesc }}"
+        description: "Tenant created using ansible"

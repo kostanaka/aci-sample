@@ -5,7 +5,7 @@
   gather_facts: False
   vars:
     tenant : "test_tenant"
-    vrf :    "test_vrf1"
+    vrf :    "test_vrf"
     bd :     "test_bd"
     gateway: "10.10.101.1"
     mask:    24
