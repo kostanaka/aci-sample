@@ -1,5 +1,5 @@
 ---
-  tenant: test_tenant
+  tenant: "test_tenant"
   ap: "intranet"
   epgs:
     - epg: "web"

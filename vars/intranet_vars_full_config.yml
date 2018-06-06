@@ -1,5 +1,5 @@
 ---
-tenant: test_tenant
+tenant: "test_tenant"
 vrf: "prod_vrf"
 bridge_domains:
   - bd: "prod_bd"
