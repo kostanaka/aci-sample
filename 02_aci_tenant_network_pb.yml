@@ -3,10 +3,12 @@
   hosts: apic
   connection: local
   gather_facts: False
-  vars_prompt:
-    - name: "tenant"
-      prompt: "What would you like to name your Tenant?"
-      private: no
+  vars:
+    tenant : "test_tenant"
+    vrf :    "test_vrf1"
+    bd :     "test_bd"
+    gateway: "10.10.101.1"
+    mask:    24
 
   tasks:
     - name: ENSURE TENANT VRF EXISTS
@@ -18,7 +20,7 @@
         validate_certs: False
         tenant: "{{ tenant }}"
         vrf: "{{ vrf }}"
-        description: "VRF Created Using Ansible"
+        desc: "VRF created using ansible"
 
     - name: ENSURE TENANT BRIDGE DOMAIN EXISTS
       aci_bd:
@@ -28,9 +30,9 @@
         state: "present"
         validate_certs: False
         tenant: "{{ tenant }}"
-        bd: "{{ bd | default('prod_bd') }}"
+        bd: "{{ bd }}"
         vrf: "{{ vrf }}"
-        description: "BD Created Using Ansible"
+        desc: "Bridge Domain created using ansible"
 
     - name: ENSURE BRIDGE DOMAIN SUBNET EXISTS
       aci_bd_subnet:
@@ -40,7 +42,7 @@
         state: "present"
         validate_certs: False
         tenant: "{{ tenant }}"
-        bd: "{{ bd | default('prod_bd') }}"
-        gateway: "10.10.101.1"
-        mask: 24
-        description: "Subnet Created Using Ansible"
+        bd: "{{ bd }}"
+        gateway: "{{ gateway }}"
+        mask: "{{ mask }}"
+        description: "Bridge Domain Subnet created using ansible"

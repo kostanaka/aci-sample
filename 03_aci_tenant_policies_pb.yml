@@ -3,10 +3,33 @@
   hosts: apic
   connection: local
   gather_facts: False
-  vars_prompt:
-    - name: "tenant"
-      prompt: "What would you like to name your Tenant?"
-      private: no
+  vars:
+    tenant : "tenant"
+    filters:
+      - "https"
+      - "sql"
+    filter_entries:
+      - filter: "https"
+        entry: "https"
+        port:  443
+      - filter: "sql"
+        entry:  "sql"
+        port:  1433
+    contracts:
+      - "web"
+      - "sql"
+    contract_subjects:
+      - contract: "web"
+        subject: "https"
+      - contract: "sql"
+        subject: "sql"
+    contract_subject_to_filters:
+      - contract: "web"
+        subject:  "https"
+        filter:   "https"
+      - contract: "sql"
+        subject:  "sql"
+        filter:   "sql"
 
   tasks:
     - name: ENSURE TENANT FILTERS EXIST
@@ -17,11 +40,9 @@
         state: "present"
         validate_certs: False
         tenant: "{{ tenant }}"
-        filter: "{{ item }}"
+        filter: "{{ item.filter }}"
         descr: "Filter Created Using Ansible"
-      with_items:
-        - "https"
-        - "sql"
+      with_items: "{{ filters }}"
 
     - name: ENSURE FILTERS HAVE FILTER ENTRIES
       aci_filter_entry:
@@ -37,13 +58,7 @@
         ip_protocol: "tcp"
         dst_port_start: "{{ item.port }}"
         dst_port_end: "{{ item.port }}"
-      with_items:
-        - filter: "https"
-          entry: "https"
-          port: 443
-        - filter: "sql"
-          entry: "sql"
-          port: 1433
+      with_items: "{{ filter_entries }}"
 
     - name: ENSURE TENANT CONTRACTS EXIST
       aci_contract:
@@ -56,9 +71,7 @@
         contract: "{{ item }}"
         scope: "context"
         description: "Contract Created Using Ansible"
-      with_items:
-        - "web"
-        - "sql"
+      with_items: "{{ contracts }}"
 
     - name: ENSURE CONTRACTS HAVE CONTRACT SUBJECTS
       aci_contract_subject:
@@ -70,11 +83,7 @@
         tenant: "{{ tenant }}"
         contract: "{{ item.contract }}"
         subject: "{{ item.subject }}"
-      with_items:
-        - contract: "web"
-          subject: "https"
-        - contract: "sql"
-          subject: "sql"
+      with_items: "{{ contract_subjects }}"
 
     - name: ENSURE CONTRACTS SUBJECTS ARE ASSOCIATED WITH FILTERS
       aci_contract_subject_to_filter:
@@ -87,10 +96,4 @@
         contract: "{{ item.contract }}"
         subject: "{{ item.subject }}"
         filter: "{{ item.filter }}"
-      with_items:
-        - contract: "web"
-          subject: "https"
-          filter: "https"
-        - contract: "sql"
-          subject: "sql"
-          filter: "sql"
+      with_items: "{{ contract_subject_filters }}"

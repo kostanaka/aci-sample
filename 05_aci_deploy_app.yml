@@ -4,6 +4,9 @@
   connection: local
   gather_facts: False
 
+  vars:
+    - include: vars/intranet_vars_full_config.yml
+
   tasks:
     - name: TASK 01 - ENSURE APPLICATIONS TENANT EXISTS
       aci_tenant:
